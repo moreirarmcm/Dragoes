@@ -3,182 +3,223 @@ package Brincadeira;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+/**
+ * Descrição do projeto na classe main "Dragões"
+ * Nessa classe estarão alocados os métodos para criaçao e classificação dos dragões.
+ * 
+ * 
+ * @author Renan
+ *
+ */
 
 public class DragoesMethod extends Dragoes {
-	Dragoes [] dragao;
-	List <Dragoes> dragao2; 
-	Random r = new Random();
 	
-	public Dragoes [] DragaoTodo() {
-		return dragao;
-	}
-	public List <Dragoes> Dragao2Todo(){
-		return dragao2;
-	}
+	Dragoes [] criandoDragao = new Dragoes[3]; // Array para alocar os dragões. Serão adicionados no List 'dragao' após a criaçao (2 espaços para os iniciais, e um terceiro para todos os filhotes).
+	List <Dragoes> dragao = new ArrayList<>();  
+	Random r = new Random(); //Random para definir a raça dos dragões criados (pode ser usado para definir o sexo também).
+	
 	/**
-	 * Inicializa o array dragao, com o parâmetro dado pelo usuário
+	 * Metodo que retorna o List dragao
 	 * 
-	 * @param tamanho
+	 * @return List <Dragoes> dragao;
 	 */
-	public void População(int tamanho) {
-		dragao = new Dragoes[tamanho];
-		dragao2 = new ArrayList<>();
+	public List <Dragoes> ListaDragoes(){
+		return this.dragao;
 	}
 	
+	
 	/**
-	 * Como fazer com que os metodos de probabilidade tragam todas as características de uma raça? (de uma só vez...)
+	 * Método que cria os dragões iniciais: 'Adão e Eva'.
+	 * Ambos são verdes, com as propriedades-padrão da raça.
 	 */
 	public void AdaoEva() {
-		dragao[0] = new Dragoes();
-		dragao[1] = new Dragoes();
-		
-		dragao[0].sexo = 0;
-		dragao[0].raca = 1;
-		dragao[0].probVerde = ProbabilidadeVerde(1);
-		dragao[0].probAzul = ProbabilidadeAzul(1);
-		dragao[0].probAmarelo = ProbabilidadeAmarelo(1);
-		dragao[0].probVermelho = ProbabilidadeVermelho(1);
-		dragao[0].probPreto = ProbabilidadePreto(1);
-		
-		dragao2.add(dragao[0]);
-
-		dragao[1].sexo = 1;
-		dragao[1].raca = 1;
-		dragao[1].probVerde = ProbabilidadeVerde(1);
-		dragao[1].probAzul = ProbabilidadeAzul(1);
-		dragao[1].probAmarelo = ProbabilidadeAmarelo(1);
-		dragao[1].probVermelho = ProbabilidadeVermelho(1);
-		dragao[1].probPreto = ProbabilidadePreto(1);
-		
-		dragao2.add(dragao[1]);
-	}
-	public void CriaDragao() {
-		
-		int y = r.nextInt(dragao2.size());
-		for (int i = 0; i < dragao2.size(); i++) {
-			if(dragao2.get(i).sexo %2 == 0) {
-				while (dragao2.get(y).sexo %2 ==0) {
-					y = r.nextInt(dragao2.size());
-				}
-			}
-			DefineGenetica(i, y);
-		}
-	}
-	public String BubbleShortERodaRaca(double verdeNovo, double azulNovo, double amareloNovo, double vermelhoNovo, double pretoNovo) {
-				
-		Double [] d = new Double[5];
-		String [] s = new String[5];
-		d[0] = new Double(verdeNovo);
-		s[0] = new String("verde");
-		
-		d[1] = new Double(azulNovo);
-		s[1] = new String("azul");
-		
-		d[2] = new Double(amareloNovo);
-		s[2] = new String("amarelo");
-		
-		d[3] = new Double(vermelhoNovo);
-		s[3] = new String("vermelho");
-		
-		d[4] = new Double(pretoNovo);
-		s[4] = new String("preto");
-
-		/**
-		 * trecho copiado do codigo Filmes
-		 */
-		boolean reiniciar = false;
-		for (int i = 0; i < 4; i++) {
-			if (d[i] > d[i+1] ){
-				double trocarPosicao = d[i+1]; // variável auxiliar para realizar ordenação.
-				String trocaPosicao = s[i+1];
-				
-				d[i+1] = d[i];
-				s[i+1] = s[i];
-				
-				d[i] = trocarPosicao;
-				s[i] = trocaPosicao;
-
-				reiniciar = true;
-			}
-			if ( (i >= 3) && (reiniciar == true) ) {
-				i = -1; // reincia o loop for (a variável "reiniciar" define se o houve alteração de posição na list. Se reiniciar = true, o loop reinicia 
-			    reiniciar = false;
-			}
-		}
-		/**
-		 * G A M B I A R R A
-		 */
-		int y = r.nextInt(100);
-		double p1 = d[0], p2 = p1 + d[1], p3 = p2 + d[2], p4 = p3 + d[3], p5 = p4 + d[4];
-		String raca = null;
-		int resultadoRaca = 0;
-		if ( (y >= 0) && (y < p1) ){
-			raca = s[0];//é a primeira raça
-		}else if ( (y > p1) && (y < p2) ){
-			raca = s[1];//é a segunda raça
-		}else if ( (y > p2) && (y < p3) ){
-			raca = s[2];//é a terceira raça
-		}else if ( (y > p3) && (y < p4) ){
-			raca = s[3];//é a quarta raça
-		}else if ( (y > p4) && (y < p5) ){
-			raca = s[4];//é a quinta raça
-		}
-		return raca;
+		criandoDragao[0] = new Dragoes();
+		criandoDragao[1] = new Dragoes();
+		//O objeto recebe os valores iniciais.
+		criandoDragao[0].sexo = 0;
+		criandoDragao[0].raca = 1;
+		criandoDragao[0].probVerde = ProbabilidadeVerde(1);
+		criandoDragao[0].probAzul = ProbabilidadeAzul(1);
+		criandoDragao[0].probAmarelo = ProbabilidadeAmarelo(1);
+		criandoDragao[0].probVermelho = ProbabilidadeVermelho(1);
+		criandoDragao[0].probPreto = ProbabilidadePreto(1);
+		dragao.add(criandoDragao[0]); // adiciona o primeiro objeto dragão no List.
+		criandoDragao[1].sexo = 1;
+		criandoDragao[1].raca = 1;
+		criandoDragao[1].probVerde = ProbabilidadeVerde(1);
+		criandoDragao[1].probAzul = ProbabilidadeAzul(1);
+		criandoDragao[1].probAmarelo = ProbabilidadeAmarelo(1);
+		criandoDragao[1].probVermelho = ProbabilidadeVermelho(1);
+		criandoDragao[1].probPreto = ProbabilidadePreto(1);
+		dragao.add(criandoDragao[1]);
 	}
 	
-	public void DefineGenetica(int refMae, int refPai) {
-		double verde, azul, amarelo, vermelho, preto, total;
-		double verdeNovo, azulNovo, amareloNovo, vermelhoNovo, pretoNovo;
-		verde = (dragao2.get(refMae).probVerde + dragao2.get(refPai).probVerde) / 2 ;
-		azul = (dragao2.get(refMae).probAzul + dragao2.get(refPai).probAzul) / 2 ;
-		amarelo = (dragao2.get(refMae).probAmarelo + dragao2.get(refPai).probAmarelo) / 2 ;
-		vermelho = (dragao2.get(refMae).probVermelho + dragao2.get(refPai).probVermelho) / 2 ;
-		preto = (dragao2.get(refMae).probPreto + dragao2.get(refPai).probPreto) / 2 ;
+	/**
+	 * Método responsável por criar um novo dragão.
+	 * O laço 'for' percorre todos os campos do List. Ao encontrar um dragão fêmea, é selecionado um segundo dragão usando uma variável 
+	 * randômica. Caso o dragão selecionado seja macho, as posições de ambos serão passadas para o método de definição genética.
+	 */
+	public void NovoDragao() {
+		int auxiliar = r.nextInt(dragao.size()); // recebe um int randômico, entre 0 e o tamanho do List (usado para referência de posição).
+		Double [] probGenetica = new Double[5];
+		for (int i = 0; i < dragao.size(); i++) {
+			if(dragao.get(i).sexo %2 == 0) { // encontra fêmea
+				while (dragao.get(auxiliar).sexo %2 ==0) { // randomiza a variável auxiliar até encontrar um dragão macho.
+					auxiliar = r.nextInt(dragao.size());
+				}
+				probGenetica = DefinindoGenetica(i, auxiliar); // passa a posição dos dois dragões selecionados e recebe um array com a probabilidade do novo dragão.
+				String racaEscolhida = OrganizandoDefinindoRaca(probGenetica);
+				
+			}
+		}
+	}
+	
+	/**
+	 * Método que define raça e genética do novo dragão
+	 * Primeiramente é feito o calculo da média de parâmetros dos pais,
+	 * depois disso a raça é randomizada e, por fim, o array criandoDragao[3] 
+	 * recebe os valores do novo dragão.
+	 * 
+	 * @param mae - posição do dragão fêmea no List 'dragao'.
+	 * @param pai - posição do dragão macho no List 'dragao'.
+	 */
+	public Double[] DefinindoGenetica(int mae, int pai) {
+		Double [] probGenetica = new Double[5]; //recebe as probabilidades calculadas
+		double verde = (dragao.get(mae).probVerde + dragao.get(pai).probVerde) / 2 ; //Média da taxa de probabilidade dos pais para raça verde.
+		double azul = (dragao.get(mae).probAzul + dragao.get(pai).probAzul) / 2 ; //Média da taxa de probabilidade dos pais para raça azul.
+		double amarelo = (dragao.get(mae).probAmarelo + dragao.get(pai).probAmarelo) / 2 ; //Média da taxa de probabilidade dos pais para raça amarela.
+		double vermelho = (dragao.get(mae).probVermelho + dragao.get(pai).probVermelho) / 2 ; //Média da taxa de probabilidade dos pais para raça vermelha.
+		double preto = (dragao.get(mae).probPreto + dragao.get(pai).probPreto) / 2 ; //Média da taxa de probabilidade dos pais para raça preta.
+		double total = verde + azul + amarelo + vermelho + preto; // Define a "base percentual" das probabilidades: para criar um novo dragão é preciso equiparar cada taxa de prob. com as dos dragões existentes. Por isso é necessário realizar uma conversão simples.
+			//double verdeNovo, azulNovo, amareloNovo, vermelhoNovo, pretoNovo;
+		total = 100/total; //facilitando a conversão.
+			//valores das novas taxas de prob. já convertidas para a base percentual.
+		verde = verde * total; 
+		azul = azul * total;
+		amarelo = amarelo * total;
+		vermelho = vermelho * total;
+		preto = preto * total;
+		probGenetica[0] = verde;
+		probGenetica[1] = azul;
+		probGenetica[2] = amarelo;
+		probGenetica[3] = vermelho;
+		probGenetica[4] = preto;
+		return probGenetica;
+	}
+		/*
+		String raca = OrganizandoDefinindoRaca(verde, azul, amarelo, vermelho, preto);
 		
-		total = verde+azul+amarelo+vermelho+preto;
-		
-		verdeNovo = (verde*100)/total;
-		azulNovo = (azul*100)/total;
-		amareloNovo = (amarelo*100)/total;
-		vermelhoNovo = (vermelho*100)/total;
-		pretoNovo = (preto*100)/total;
-		
-		
-		String raca = BubbleShortERodaRaca(verdeNovo, azulNovo, amareloNovo, vermelhoNovo, pretoNovo);
 		int racaNum = 0;
 		switch (raca) {
 			case "verde": {
 				racaNum = 1;
+				break;
 			}case "azul": {
 				racaNum = 2;
+				break;
 			}case "amarelo": {
 				racaNum = 3;
+				break;
 			}case "vermelho": {
 				racaNum = 4;
+				break;
 			}case "preto": {
 				racaNum = 5;
+				break;
 			}
 		}
-		dragao[0] = null;
-		dragao[0] = new Dragoes();
-		dragao[0].sexo = r.nextInt(2);
-		dragao[0].raca = racaNum;
+		criandoDragao[0] = null;
+		criandoDragao[0] = new Dragoes();
+		criandoDragao[0].sexo = r.nextInt(2);
+		criandoDragao[0].raca = racaNum;
 		
-		if ( (racaNum > dragao2.get(refMae).raca) || (racaNum > dragao2.get(refPai).raca) ) {
-			dragao[0].probVerde = ProbabilidadeVerde(racaNum);
-			dragao[0].probAzul = ProbabilidadeAzul(racaNum);
-			dragao[0].probAmarelo = ProbabilidadeAmarelo(racaNum);
-			dragao[0].probVermelho = ProbabilidadeVermelho(racaNum);
-			dragao[0].probPreto = ProbabilidadePreto(racaNum);
+		if ( (racaNum > dragao.get(mae).raca) || (racaNum > dragao.get(pai).raca) ) {
+			criandoDragao[0].probVerde = ProbabilidadeVerde(racaNum);
+			criandoDragao[0].probAzul = ProbabilidadeAzul(racaNum);
+			criandoDragao[0].probAmarelo = ProbabilidadeAmarelo(racaNum);
+			criandoDragao[0].probVermelho = ProbabilidadeVermelho(racaNum);
+			criandoDragao[0].probPreto = ProbabilidadePreto(racaNum);
 		}else {
-			dragao[0].probVerde = verdeNovo;
-			dragao[0].probAzul = azulNovo;
-			dragao[0].probAmarelo = amareloNovo;
-			dragao[0].probVermelho = vermelhoNovo;
-			dragao[0].probPreto = pretoNovo;	
+			criandoDragao[0].probVerde = verdeNovo;
+			criandoDragao[0].probAzul = azulNovo;
+			criandoDragao[0].probAmarelo = amareloNovo;
+			criandoDragao[0].probVermelho = vermelhoNovo;
+			criandoDragao[0].probPreto = pretoNovo;	
 		}
-		dragao2.add(dragao[0]);	
+		dragao.add(criandoDragao[0]);	
 	}
+	*/
+	/**
+	 * Método que organiza as probabilidades (ordem decrescente) e define a raça do dragão.
+	 * 
+	 * Técnica de organização - Bubble-short.
+	 * 
+	 * Após a organização não é possível saber quais probabilidades ocupam cada espaço e, por esse motivo,
+	 * um novo array é usado para referência.
+	 * 
+	 * @param probGenetica - array com todas as probabilidades genéticas.
+	 * @return
+	 */
+	public String OrganizandoDefinindoRaca(Double[] probGenetica) {
+		int randomizandoProbabilidade = r.nextInt(100); // recebe um int entre 0 e 99, que será usado para definir a raça.
+		String [] referenciaRaca = new String[5];
+		referenciaRaca[0] = "verde";
+		referenciaRaca[1] = "azul";
+		referenciaRaca[2] = "amarelo";
+		referenciaRaca[3] = "vermelho";
+		referenciaRaca[4] = "preto";
+
+		/*
+		 * trecho copiado do codigo Filmes - alterado para ordenação em ordem decrescente (não testado).
+		 */
+		boolean reiniciar = false;
+		for (int i = 4; i > 0; i--) {
+			if (probGenetica[i] > probGenetica[i - 1] ){
+				double trocaProbGenetica = probGenetica[ i - 1]; // variável auxiliar para realizar ordenação do array double;
+				String trocaReferenciaRaca = referenciaRaca[i - 1]; // variável auxiliar para realizar ordenação do array string;
+				probGenetica[i - 1] = probGenetica[i];
+				referenciaRaca[i - 1] = referenciaRaca[i];
+				probGenetica[i] = trocaProbGenetica;
+				referenciaRaca[i] = trocaReferenciaRaca;
+				reiniciar = true; // reinicia o laço.
+			}
+			if ( (i <= 1) && (reiniciar == true) ) {
+				i = 5; // 'reiniciar' é true sempre que houver alteração de posição n array probReferencia. Se reiniciar = true, o loop reinicia. 
+			    reiniciar = false;
+			}
+		}
+		
+		/**
+		 * Definindo a Raça: com o array probGenetica ordenado EM ORDEM DECRESCENTE.
+		 * Explicação: a probabilidade é a quantidades de eventos (em 100) onde uma determinada
+		 * condição é satisfeita. Considerando um dragão verde, a probabilidade será: 80% para verde,
+		 * 15% para azul e 5% para amarelo. Logo, o numero randomico (randomizandoPropriedade, inicio do método)
+		 * será 'verde' para valores de 0 a 79, azul para valores de 80-94, e amarelo para 95-99;
+		 */
+		double prob1 = probGenetica[0]; // prob1 recebe a maior taxa de probabilidade (0 até a maior prob)
+		double prob2 = prob1 + probGenetica[1]; //prob2 recebe a segunda maior taxa (acrescido de 0 para manter a sequência)
+		double prob3 = prob2 +probGenetica[2];
+		double prob4 = prob3 + probGenetica[3];
+		double prob5 = prob4 + probGenetica[4];
+		String raca = null;
+		int resultadoRaca = 0;
+		
+				//Veja comentário acima
+		if ( (randomizandoProbabilidade >= 0) && (randomizandoProbabilidade < prob1) ){
+			raca = referenciaRaca[0];//é a primeira raça 
+		}else if ( (randomizandoProbabilidade >= prob1) && (randomizandoProbabilidade < prob2) ){
+			raca = referenciaRaca[1];//é a segunda raça
+		}else if ( (randomizandoProbabilidade >= prob2) && (randomizandoProbabilidade < prob3) ){
+			raca = referenciaRaca[2];//é a terceira raça
+		}else if ( (randomizandoProbabilidade >= prob3) && (randomizandoProbabilidade < prob4) ){
+			raca = referenciaRaca[3];//é a quarta raça
+		}else if ( (randomizandoProbabilidade >=prob4) && (randomizandoProbabilidade < prob5) ){
+			raca = referenciaRaca[4];//é a quinta raça
+		}
+		return raca;
+	}
+	
+	
 	/**
 	 * Daqui pra baixo os métodos são todos referentes à probabilidade da raça (Está ruim, melhore)
 	 * 
@@ -208,6 +249,10 @@ public class DragoesMethod extends Dragoes {
 			}
 			case 4: {
 				verde = 5;
+				break;
+			}
+			case 5: {
+				verde = 1;
 				break;
 			}
 			default:
@@ -267,7 +312,7 @@ public class DragoesMethod extends Dragoes {
 				break;
 			}
 			case 5: {
-				amarelo = 40;
+				amarelo = 20;
 				break;
 			}
 			default:
@@ -297,7 +342,7 @@ public class DragoesMethod extends Dragoes {
 				break;
 			}
 			case 5: {
-				vermelho = 30;
+				vermelho = 40;
 				break;
 			}
 			default:
@@ -327,7 +372,7 @@ public class DragoesMethod extends Dragoes {
 				break;
 			}
 			case 5: {
-				preto = 20;
+				preto = 30;
 				break;
 			}
 			default:
@@ -336,4 +381,5 @@ public class DragoesMethod extends Dragoes {
 		}
 		return preto;
 	}
+	
 }
