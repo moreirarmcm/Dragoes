@@ -1,5 +1,7 @@
 package Brincadeira;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -32,36 +34,37 @@ import java.util.Scanner;
  */
 
 public class Dragoes {
-	int raca; 
-	int sexo; 
-	double probVerde;
-	double probAzul;
-	double probAmarelo;
-	double probVermelho;
-	double probPreto;
-	double probBranco;
-	
 	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+		DecimalFormat df = new DecimalFormat("00.00"); // arredonda os doubles.
+		df.setRoundingMode(RoundingMode.UP);
+		Scanner sc = new Scanner(System.in); //Após o print de uma geração, insira 0 (zero) para prosseguir para a próxima - valores diferentes de 0 encerram a execução.
 		DragoesMethod dg = new DragoesMethod();
-		List <Dragoes> dragao = new ArrayList<>();
-		dg.AdaoEva();
-		//dragao.add((Dragoes) dg.dragao);
-		int x = 1;
-		for (int escolha = 0; escolha < 1; escolha=escolha) {
-			dg.NovoDragao();
+		List <DragoesMethod> dragao = new ArrayList<>();
+		//variaveis para auxiliar o print
+		int populacaoDragoes = dg.TamanhoAtualList(); // recebe 0 aqui
+		int posicaoDragaoAtual = 0;
+		int geracao = 1;
+		dg.AdaoEva(); // cria os dois dragões iniciais - um macho e uma fêmea.
+		dg.NovoDragao(); // cria um dragão filhote.
+		populacaoDragoes = dg.TamanhoAtualList(); //DEVERIA receber 3 (macho, femea e filhote).
+		System.out.println(geracao + "ra Geração -----------------------------------");
+		
+		for (posicaoDragaoAtual = 0; posicaoDragaoAtual < populacaoDragoes; posicaoDragaoAtual++) {
 			dragao.clear();
 			dragao.addAll(dg.dragao);
-			escolha= sc.nextInt();
-			if (escolha == 0) {
-				System.out.println(x + "ra GERAÇÃO" );
-				x++;
-				for (int i = 0; i < dragao.size(); i++) {
-					System.out.println ((i + 1) + "° dragão | " + "Tipo: " + dragao.get(i).raca +	" | Sexo: " + dragao.get(i).sexo + 
-							" | probVerde: " + dragao.get(i).probVerde + " | probAzul: " + dragao.get(i).probAzul + " | probAmarelo: " + dragao.get(i).probAmarelo + 
-							" | probVermelho: " + dragao.get(i).probVermelho +" | probPreto " + dragao.get(i).probPreto);
+			System.out.println("Dragão n° " + (posicaoDragaoAtual+1) + " | Tipo: " + dragao.get(posicaoDragaoAtual).raca + " | Sexo: " + dragao.get(posicaoDragaoAtual).sexo + " | probVerde: " + df.format(dragao.get(posicaoDragaoAtual).probVerde) + " | probAzul: " + df.format( dragao.get(posicaoDragaoAtual).probAzul ) + " | probAmarelo: " + df.format( dragao.get(posicaoDragaoAtual).probAmarelo) + 
+					" | probVermelho: " + df.format( dragao.get(posicaoDragaoAtual).probVermelho) +" | probPreto " + df.format( dragao.get(posicaoDragaoAtual).probPreto) + " | Pai " + df.format( dragao.get(posicaoDragaoAtual).dragaoPai ) + " | Mãe " + df.format( dragao.get(posicaoDragaoAtual).dragaoMae) );
+			if (posicaoDragaoAtual == populacaoDragoes - 1) {
+				int escolha = sc.nextInt(); 
+				if (escolha == 0) {
+					dg.NovoDragao();
+					populacaoDragoes = dg.TamanhoAtualList();
+					geracao++;
+					System.out.println(geracao + "ra Geração -----------------------------------");
 				}
 			}
 		}
 	}
 }
+		
+		

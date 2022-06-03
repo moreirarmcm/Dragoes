@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 /**
- * Descrição do projeto na classe main "Dragões"
+ * Descrição do projeto na classe main "Dragoes"
  * Nessa classe estarão alocados os métodos para criaçao e classificação dos dragões.
- * 
  * 
  * @author Renan
  *
@@ -14,27 +13,41 @@ import java.util.Random;
 
 public class DragoesMethod extends Dragoes {
 	
-	Dragoes [] criandoDragao = new Dragoes[3]; // Array para alocar os dragões. Serão adicionados no List 'dragao' após a criaçao (2 espaços para os iniciais, e um terceiro para todos os filhotes).
-	List <Dragoes> dragao = new ArrayList<>();  
+	DragoesMethod [] criandoDragao = new DragoesMethod[3]; // Array para alocar os dragões. Serão adicionados no List 'dragao' após a criaçao (2 espaços para os iniciais, e um terceiro para todos os filhotes).
+	List <DragoesMethod> dragao = new ArrayList<>();  
 	Random r = new Random(); //Random para definir a raça dos dragões criados (pode ser usado para definir o sexo também).
+	
+	int raca; 
+	int sexo; 
+	int dragaoPai;
+	int dragaoMae;
+	double probVerde;
+	double probAzul;
+	double probAmarelo;
+	double probVermelho;
+	double probPreto;
+	double probBranco;
 	
 	/**
 	 * Metodo que retorna o List dragao
 	 * 
 	 * @return List <Dragoes> dragao;
 	 */
-	public List <Dragoes> ListaDragoes(){
-		return this.dragao;
+	public List <DragoesMethod> ListaDragoes(int i){
+		return dragao;
 	}
 	
+	public int TamanhoAtualList() {
+		return dragao.size();
+	}
 	
 	/**
 	 * Método que cria os dragões iniciais: 'Adão e Eva'.
 	 * Ambos são verdes, com as propriedades-padrão da raça.
 	 */
 	public void AdaoEva() {
-		criandoDragao[0] = new Dragoes();
-		criandoDragao[1] = new Dragoes();
+		criandoDragao[0] = new DragoesMethod();
+		criandoDragao[1] = new DragoesMethod();
 		//O objeto recebe os valores iniciais.
 		criandoDragao[0].sexo = 0;
 		criandoDragao[0].raca = 1;
@@ -60,14 +73,17 @@ public class DragoesMethod extends Dragoes {
 	 * randômica. Caso o dragão selecionado seja macho, as posições de ambos serão passadas para o método de definição genética.
 	 */
 	public void NovoDragao() {
-		int auxiliar = r.nextInt(dragao.size()); // recebe um int randômico, entre 0 e o tamanho do List (usado para referência de posição).
-		Double [] probGenetica = new Double[5];
+		int auxiliar; // recebe um int randômico, entre 0 e o tamanho do List (usado para referência de posição).
+	//	Double [] probGenetica = new Double[5];
+		
 		for (int i = 0; i < dragao.size(); i++) {
-			if(dragao.get(i).sexo %2 == 0) { // encontra fêmea
-				while (dragao.get(auxiliar).sexo %2 ==0) { // randomiza a variável auxiliar até encontrar um dragão macho.
+			auxiliar = r.nextInt(dragao.size());
+			if(dragao.get(i).sexo == 0) { // encontra fêmea
+				
+				while (dragao.get(auxiliar).sexo == 0) { // randomiza a variável auxiliar até encontrar um dragão macho.
 					auxiliar = r.nextInt(dragao.size());
 				}
-				dragao.add(DefinindoGenetica(i, auxiliar)); // passa a posição dos dois dragões selecionados e recebe um novo dragão.
+				DefinindoGenetica(i, auxiliar); // passa a posição dos dois dragões selecionados e recebe um novo dragão.
 			}
 		}
 	}
@@ -81,7 +97,7 @@ public class DragoesMethod extends Dragoes {
 	 * @param mae - posição do dragão fêmea no List 'dragao'.
 	 * @param pai - posição do dragão macho no List 'dragao'.
 	 */
-	public Dragoes DefinindoGenetica(int mae, int pai) {
+	public void DefinindoGenetica(int mae, int pai) {
 		Double [] probGenetica = new Double[5]; //recebe as probabilidades calculadas
 		double verde = (dragao.get(mae).probVerde + dragao.get(pai).probVerde) / 2 ; //Média da taxa de probabilidade dos pais para raça verde.
 		double azul = (dragao.get(mae).probAzul + dragao.get(pai).probAzul) / 2 ; //Média da taxa de probabilidade dos pais para raça azul.
@@ -97,14 +113,16 @@ public class DragoesMethod extends Dragoes {
 		amarelo = amarelo * total;
 		vermelho = vermelho * total;
 		preto = preto * total;
+		
 		probGenetica[0] = verde;
 		probGenetica[1] = azul;
 		probGenetica[2] = amarelo;
 		probGenetica[3] = vermelho;
 		probGenetica[4] = preto;
+
 		int racaEscolhida = OrganizandoDefinindoRaca(probGenetica);
 
-		criandoDragao[2] = new Dragoes();
+		criandoDragao[2] = new DragoesMethod();
 		criandoDragao[2].sexo = r.nextInt(2);
 		criandoDragao[2].raca = racaEscolhida;
 		
@@ -121,7 +139,11 @@ public class DragoesMethod extends Dragoes {
 			criandoDragao[2].probVermelho = vermelho;
 			criandoDragao[2].probPreto = preto;	
 		}
-		return criandoDragao[2];
+		criandoDragao[2].dragaoMae = mae;
+		criandoDragao[2].dragaoPai = pai;	
+		dragao.add(criandoDragao[2]);
+		criandoDragao[2] = null;
+		
 	}
 	
 	/**
