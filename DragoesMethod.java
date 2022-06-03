@@ -67,9 +67,7 @@ public class DragoesMethod extends Dragoes {
 				while (dragao.get(auxiliar).sexo %2 ==0) { // randomiza a variável auxiliar até encontrar um dragão macho.
 					auxiliar = r.nextInt(dragao.size());
 				}
-				probGenetica = DefinindoGenetica(i, auxiliar); // passa a posição dos dois dragões selecionados e recebe um array com a probabilidade do novo dragão.
-				String racaEscolhida = OrganizandoDefinindoRaca(probGenetica);
-				
+				dragao.add(DefinindoGenetica(i, auxiliar)); // passa a posição dos dois dragões selecionados e recebe um novo dragão.
 			}
 		}
 	}
@@ -83,7 +81,7 @@ public class DragoesMethod extends Dragoes {
 	 * @param mae - posição do dragão fêmea no List 'dragao'.
 	 * @param pai - posição do dragão macho no List 'dragao'.
 	 */
-	public Double[] DefinindoGenetica(int mae, int pai) {
+	public Dragoes DefinindoGenetica(int mae, int pai) {
 		Double [] probGenetica = new Double[5]; //recebe as probabilidades calculadas
 		double verde = (dragao.get(mae).probVerde + dragao.get(pai).probVerde) / 2 ; //Média da taxa de probabilidade dos pais para raça verde.
 		double azul = (dragao.get(mae).probAzul + dragao.get(pai).probAzul) / 2 ; //Média da taxa de probabilidade dos pais para raça azul.
@@ -104,51 +102,28 @@ public class DragoesMethod extends Dragoes {
 		probGenetica[2] = amarelo;
 		probGenetica[3] = vermelho;
 		probGenetica[4] = preto;
-		return probGenetica;
-	}
-		/*
-		String raca = OrganizandoDefinindoRaca(verde, azul, amarelo, vermelho, preto);
+		int racaEscolhida = OrganizandoDefinindoRaca(probGenetica);
+
+		criandoDragao[2] = new Dragoes();
+		criandoDragao[2].sexo = r.nextInt(2);
+		criandoDragao[2].raca = racaEscolhida;
 		
-		int racaNum = 0;
-		switch (raca) {
-			case "verde": {
-				racaNum = 1;
-				break;
-			}case "azul": {
-				racaNum = 2;
-				break;
-			}case "amarelo": {
-				racaNum = 3;
-				break;
-			}case "vermelho": {
-				racaNum = 4;
-				break;
-			}case "preto": {
-				racaNum = 5;
-				break;
-			}
-		}
-		criandoDragao[0] = null;
-		criandoDragao[0] = new Dragoes();
-		criandoDragao[0].sexo = r.nextInt(2);
-		criandoDragao[0].raca = racaNum;
-		
-		if ( (racaNum > dragao.get(mae).raca) || (racaNum > dragao.get(pai).raca) ) {
-			criandoDragao[0].probVerde = ProbabilidadeVerde(racaNum);
-			criandoDragao[0].probAzul = ProbabilidadeAzul(racaNum);
-			criandoDragao[0].probAmarelo = ProbabilidadeAmarelo(racaNum);
-			criandoDragao[0].probVermelho = ProbabilidadeVermelho(racaNum);
-			criandoDragao[0].probPreto = ProbabilidadePreto(racaNum);
+		if ( (racaEscolhida > dragao.get(mae).raca) && (racaEscolhida > dragao.get(pai).raca) ) {
+			criandoDragao[2].probVerde = ProbabilidadeVerde(racaEscolhida);
+			criandoDragao[2].probAzul = ProbabilidadeAzul(racaEscolhida);
+			criandoDragao[2].probAmarelo = ProbabilidadeAmarelo(racaEscolhida);
+			criandoDragao[2].probVermelho = ProbabilidadeVermelho(racaEscolhida);
+			criandoDragao[2].probPreto = ProbabilidadePreto(racaEscolhida);
 		}else {
-			criandoDragao[0].probVerde = verdeNovo;
-			criandoDragao[0].probAzul = azulNovo;
-			criandoDragao[0].probAmarelo = amareloNovo;
-			criandoDragao[0].probVermelho = vermelhoNovo;
-			criandoDragao[0].probPreto = pretoNovo;	
+			criandoDragao[2].probVerde = verde;
+			criandoDragao[2].probAzul = azul;
+			criandoDragao[2].probAmarelo = amarelo;
+			criandoDragao[2].probVermelho = vermelho;
+			criandoDragao[2].probPreto = preto;	
 		}
-		dragao.add(criandoDragao[0]);	
+		return criandoDragao[2];
 	}
-	*/
+	
 	/**
 	 * Método que organiza as probabilidades (ordem decrescente) e define a raça do dragão.
 	 * 
@@ -160,9 +135,11 @@ public class DragoesMethod extends Dragoes {
 	 * @param probGenetica - array com todas as probabilidades genéticas.
 	 * @return
 	 */
-	public String OrganizandoDefinindoRaca(Double[] probGenetica) {
+	public int OrganizandoDefinindoRaca(Double[] probGenetica) {
 		int randomizandoProbabilidade = r.nextInt(100); // recebe um int entre 0 e 99, que será usado para definir a raça.
 		String [] referenciaRaca = new String[5];
+		String racaPalavra = null;
+		int racaNumero = 0;
 		referenciaRaca[0] = "verde";
 		referenciaRaca[1] = "azul";
 		referenciaRaca[2] = "amarelo";
@@ -201,22 +178,43 @@ public class DragoesMethod extends Dragoes {
 		double prob3 = prob2 +probGenetica[2];
 		double prob4 = prob3 + probGenetica[3];
 		double prob5 = prob4 + probGenetica[4];
-		String raca = null;
-		int resultadoRaca = 0;
-		
+				
 				//Veja comentário acima
 		if ( (randomizandoProbabilidade >= 0) && (randomizandoProbabilidade < prob1) ){
-			raca = referenciaRaca[0];//é a primeira raça 
+			racaPalavra = referenciaRaca[0];//é a primeira raça 
 		}else if ( (randomizandoProbabilidade >= prob1) && (randomizandoProbabilidade < prob2) ){
-			raca = referenciaRaca[1];//é a segunda raça
+			racaPalavra = referenciaRaca[1];//é a segunda raça
 		}else if ( (randomizandoProbabilidade >= prob2) && (randomizandoProbabilidade < prob3) ){
-			raca = referenciaRaca[2];//é a terceira raça
+			racaPalavra = referenciaRaca[2];//é a terceira raça
 		}else if ( (randomizandoProbabilidade >= prob3) && (randomizandoProbabilidade < prob4) ){
-			raca = referenciaRaca[3];//é a quarta raça
+			racaPalavra = referenciaRaca[3];//é a quarta raça
 		}else if ( (randomizandoProbabilidade >=prob4) && (randomizandoProbabilidade < prob5) ){
-			raca = referenciaRaca[4];//é a quinta raça
+			racaPalavra = referenciaRaca[4];//é a quinta raça
 		}
-		return raca;
+		
+		/*Definida a raça, na string racaPalavra, agora é feita uma verificação e mudança de referência ('raça', em string, é 
+		 * alterada para int.
+		*/
+		switch (racaPalavra) {
+			case "verde": {
+				racaNumero = 1;
+				break;
+			}case "azul": {
+				racaNumero = 2;
+				break;
+			}case "amarelo": {
+				racaNumero = 3;
+				break;
+			}case "vermelho": {
+				racaNumero = 4;
+				break;
+			}case "preto": {
+				racaNumero = 5;
+				break;
+			}
+		}
+		
+		return racaNumero;
 	}
 	
 	
