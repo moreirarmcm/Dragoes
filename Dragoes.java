@@ -29,6 +29,10 @@ import java.util.Scanner;
  *  		ex: o dragão Azul, filho dos dragões Amarela e Vermelho, receberá os valores: Verde-7,32%	Azul-21,95%		Amarelo-51,22%		Vermelho-17,07%		Preto-2,44%
  *  			(a soma das taxas percentuais deve ser sempre = 100%).
  *  
+ *  Att: Quando a população de dragões atinge 50 indivíduos, passa a ocorrer uma seleção randômica entre os dragões: cerca de 30% dos dragões "morrem", e o parâmetro
+ *  de decisão é a força de cada objeto.
+ *  
+ *  Att2: A mesma seleção é feita no momento da criação de um novo dragão. O macho mais forte "vence" o macho mais fraco.
  * @author Renan
  *
  */
@@ -41,24 +45,36 @@ public class Dragoes {
 		DragoesMethod dg = new DragoesMethod();
 		List <DragoesMethod> dragao = new ArrayList<>();
 		//variaveis para auxiliar o print
-		int populacaoDragoes = dg.TamanhoAtualList(); // recebe 0 aqui
 		int posicaoDragaoAtual = 0;
 		int geracao = 1;
 		dg.AdaoEva(); // cria os dois dragões iniciais - um macho e uma fêmea.
-		dg.NovoDragao(); // cria um dragão filhote.
-		populacaoDragoes = dg.TamanhoAtualList(); //DEVERIA receber 3 (macho, femea e filhote).
+		//dg.NovoDragao(); // cria um dragão filhote.
+		int populacaoDragoes = dg.TamanhoAtualList(); //DEVERIA receber 3 (macho, femea e filhote).
 		System.out.println(geracao + "ra Geração -----------------------------------");
 		
 		for (posicaoDragaoAtual = 0; posicaoDragaoAtual < populacaoDragoes; posicaoDragaoAtual++) {
 			dragao.clear();
 			dragao.addAll(dg.dragao);
-			System.out.println("Dragão n° " + (posicaoDragaoAtual+1) + " | Tipo: " + dragao.get(posicaoDragaoAtual).raca + " | Sexo: " + dragao.get(posicaoDragaoAtual).sexo + " | probVerde: " + df.format(dragao.get(posicaoDragaoAtual).probVerde) + " | probAzul: " + df.format( dragao.get(posicaoDragaoAtual).probAzul ) + " | probAmarelo: " + df.format( dragao.get(posicaoDragaoAtual).probAmarelo) + 
-					" | probVermelho: " + df.format( dragao.get(posicaoDragaoAtual).probVermelho) +" | probPreto " + df.format( dragao.get(posicaoDragaoAtual).probPreto) + " | Pai " + df.format( dragao.get(posicaoDragaoAtual).dragaoPai ) + " | Mãe " + df.format( dragao.get(posicaoDragaoAtual).dragaoMae) );
+			System.out.println("Dragão n° " + (posicaoDragaoAtual+1) + 
+					" | Tipo: " + dragao.get(posicaoDragaoAtual).raca + 
+					" | Sexo: " + dragao.get(posicaoDragaoAtual).sexo + 
+					" | probVerde: " + df.format(dragao.get(posicaoDragaoAtual).probVerde) + 
+					" | probAzul: " + df.format( dragao.get(posicaoDragaoAtual).probAzul ) + 
+					" | probAmarelo: " + df.format( dragao.get(posicaoDragaoAtual).probAmarelo) + 
+					" | probVermelho: " + df.format( dragao.get(posicaoDragaoAtual).probVermelho) +
+					" | probPreto: " + df.format( dragao.get(posicaoDragaoAtual).probPreto) + 
+					" | probBranc0: " + df.format( dragao.get(posicaoDragaoAtual).probBranco) + 
+					" | Pai: " + (dragao.get(posicaoDragaoAtual).dragaoPai + 1) + 
+					" | Mãe: " + (dragao.get(posicaoDragaoAtual).dragaoMae + 1) + 
+					" | Força: "+df.format(dragao.get(posicaoDragaoAtual).forca));
+			
 			if (posicaoDragaoAtual == populacaoDragoes - 1) {
 				int escolha = sc.nextInt(); 
 				if (escolha == 0) {
 					dg.NovoDragao();
+					
 					populacaoDragoes = dg.TamanhoAtualList();
+					//outraPopulacao = populacaoDragoes;
 					geracao++;
 					System.out.println(geracao + "ra Geração -----------------------------------");
 				}
