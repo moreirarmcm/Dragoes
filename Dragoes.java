@@ -8,11 +8,8 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- * Código hobbie "CRIA DRAGÕES"
- * 
- *  
- * Há 5 raças de dragões: verdes, azuis, amarelos, vermelhos e pretos. Verde é a raça mais comum (inicial), preto é a mais rara.
- * Cada raça possui uma probabilidade de gerar filhotes de outras raças, seguindo a seguinte tabela (valores-padrão de raça):
+ * Há 6 raças de dragões: verdes, azuis, amarelos, vermelhos, pretos e brancos. Verde é a raça mais comum (inicial), branco é a mais rara.
+ * Cada raça possui uma probabilidade de gerar filhotes de outras raças, seguindo a seguinte tabela (valores-padrão de raça, sujeitos à alteração):
  *
  * 					Raça1	Raça2	Raça3	Raça4	Raça5
  * 	Prob. verde: 	80%		30%		10%		5%		1%
@@ -33,7 +30,8 @@ import java.util.Scanner;
  *  de decisão é a força de cada objeto.
  *  
  *  Att2: A mesma seleção é feita no momento da criação de um novo dragão. O macho mais forte "vence" o macho mais fraco.
- * @author Renan
+ * 
+ * @author Renan Moreira
  *
  */
 
@@ -42,6 +40,7 @@ public class Dragoes {
 		DecimalFormat df = new DecimalFormat("00.00"); // arredonda os doubles.
 		df.setRoundingMode(RoundingMode.UP);
 		Scanner sc = new Scanner(System.in); //Após o print de uma geração, insira 0 (zero) para prosseguir para a próxima - valores diferentes de 0 encerram a execução.
+		
 		DragoesMethod dg = new DragoesMethod();
 		List <DragoesMethod> dragao = new ArrayList<>();
 		//variaveis para auxiliar o print
@@ -72,7 +71,6 @@ public class Dragoes {
 				int escolha = sc.nextInt(); 
 				if (escolha == 0) {
 					dg.NovoDragao();
-					
 					populacaoDragoes = dg.TamanhoAtualList();
 					//outraPopulacao = populacaoDragoes;
 					geracao++;

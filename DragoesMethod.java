@@ -11,7 +11,7 @@ import java.util.Random;
  *
  */
 
-public class DragoesMethod extends Dragoes {
+public class DragoesMethod  {
 	DragoesMethod [] criandoDragao = new DragoesMethod[3]; // Array para alocar os dragões. Serão adicionados no List 'dragao' após a criaçao (2 espaços para os iniciais, e um terceiro para todos os filhotes).
 	List <DragoesMethod> dragao = new ArrayList<>();  
 	Random r = new Random(); //Random para definir a raça dos dragões criados (pode ser usado para definir o sexo também).
